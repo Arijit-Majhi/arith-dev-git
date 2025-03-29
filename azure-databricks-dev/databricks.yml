@@ -1,0 +1,24 @@
+# databricks.yml
+# This is the configuration for the Databricks Asset Bundle {{.project_name}}.
+
+bundle:
+  name: deployment
+
+include:
+  - resources/*.yml
+
+targets:
+  # The deployment targets. See https://docs.databricks.com/en/dev-tools/bundles/deployment-modes.html
+  dev:
+    mode: development
+    default: true
+    workspace:
+      host: https://adb-732411667053266.6.azuredatabricks.net/
+
+  test:
+    mode: test
+    workspace:
+      host: https://adb-1141042852266020.0.azuredatabricks.net/
+      root_path: /Shared/.bundle/test_instance/${bundle.name}
+    run_as:
+      service_principal_name: arith-dev-service-principle
