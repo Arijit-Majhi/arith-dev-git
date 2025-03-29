@@ -1,0 +1,36 @@
+# This is a Databricks asset bundle definition for my_project.
+# See https://docs.databricks.com/dev-tools/bundles/index.html for documentation.
+bundle:
+  name: my_project
+  uuid: 7aeea270-3a96-4b3c-94c0-a1bd7c933888
+
+include:
+  - resources/*.yml
+
+targets:
+  dev:
+    # The default target uses 'mode: development' to create a development copy.
+    # - Deployed resources get prefixed with '[dev my_user_name]'
+    # - Any job schedules and triggers are paused by default.
+    # See also https://docs.databricks.com/dev-tools/bundles/deployment-modes.html.
+    mode: development
+    default: true
+    workspace:
+      host: https://adb-732411667053266.6.azuredatabricks.net/
+  
+  staging:
+    workspace:
+      host: https://adb-732411667053266.6.azuredatabricks.net/
+      root_path: /Shared/staging-workspace/.bundle/${bundle.name}/${bundle.target}
+    run_as:
+      service_principal_name: 'arith-dev-service-principle'
+
+  prod:
+    mode: production
+    workspace:
+      host: https://adb-1141042852266020.0.azuredatabricks.net/
+      # We explicitly deploy to /Workspace/Users/majhi.arijit29@gmail.com to make sure we only have a single copy.
+      root_path: /Workspace/Users/majhi.arijit29@gmail.com/.bundle/${bundle.name}/${bundle.target}
+    permissions:
+      - user_name: majhi.arijit29@gmail.com
+        level: CAN_MANAGE
