@@ -19,7 +19,7 @@ targets:
       service_principal_name: arith-dev-service-principle
 
   test:
-    mode: test
+    mode: production
     workspace:
       host: https://adb-1141042852266020.0.azuredatabricks.net/
       root_path: /Shared/.bundle/test_instance/${bundle.name}
